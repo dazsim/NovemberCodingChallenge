@@ -19,7 +19,7 @@
         <div>
             Welcome to My Generic Login System. 
             <?php 
-                if ($_SESSION['user']!="")
+                if (isset($_SESSION['user']))
                     echo $_SESSION['user'];
             ?> 
         </div>
