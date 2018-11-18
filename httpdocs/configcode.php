@@ -70,7 +70,7 @@ class ConfigCode {
      */ 
     public function getConfigs()
     {
-        return $this->configs;
+        return $this->{'configuration'};
     }
 
     /**
@@ -80,7 +80,7 @@ class ConfigCode {
      */ 
     public function setConfigs($configuration)
     {
-        $this->configs = $configuration;
+        $this->{'configuration'} = $configuration;
 
         return $this;
     }
