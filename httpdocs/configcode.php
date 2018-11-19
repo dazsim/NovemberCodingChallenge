@@ -10,10 +10,10 @@ class ConfigCode {
         $this->{'configFile'} = $file;
         
         //check if configuration file already exists
-        if (file_exists($this->{'configFile'}))
+        if (file_exists("../".$this->{'configFile'}))
         {
             //load configuration into configs variable.
-            $this->{'configuration'} = parse_ini_file($this->{'configFile'});
+            $this->{'configuration'} = parse_ini_file("../".$this->{'configFile'});
         } else
         {
             
@@ -25,12 +25,7 @@ class ConfigCode {
             $tmp['database_name']="Name";
             $tmp['database_user']="Username";
             $tmp['database_pass']="Password";
-            print("filename : ");
-            print($this->{'configFile'});
-            $this->{'configuration'} = $tmp;
-            
-            print("<BR><BR>filename : ");
-            print($this->{'configFile'});
+           
             $this->saveConfig();
             
         }
@@ -41,15 +36,15 @@ class ConfigCode {
     //save config back to file after modification.
     public function saveConfig() 
     {    
-        write_php_ini($this->{'configuration'},$this->{'configFile'});
+        write_php_ini($this->{'configuration'},"../".$this->{'configFile'});
     }
 
     //load config from file
     public function loadConfig() 
     {
-        if (file_exists($this->$configFile))
+        if (file_exists("../".$this->{'configFile'}))
         {
-            $this->$configuration = parse_ini_file($this->$configFile);
+            $this->$configuration = parse_ini_file("../".$this->{'configFile'});
         } else
         {
             //populate our config, and write to file.

@@ -11,10 +11,7 @@
             }
             else $res[] = "$key = ".(is_numeric($val) ? $val : '"'.$val.'"');
         }
-        print("<BR>file: ");
-        print_r($file);
-        print("<BR><BR>array: ");
-        print_r($array);
+        
         safefilerewrite($file, implode("\r\n", $res));
     }
     
