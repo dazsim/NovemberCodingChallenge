@@ -1,3 +1,7 @@
+<?php
+    if (!isset($_SESSION['username']))
+    {
+?>
 <form action="/login.php" method="post">
     <fieldset>
         <legend>Login:</legend>
@@ -13,6 +17,7 @@
     
 </form>
 <?php
+    }
 if (isset($_SESSION['username']))
 {
     //optional log out button.

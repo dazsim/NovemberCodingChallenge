@@ -3,9 +3,11 @@
     include_once('configcode.php');
     $configs = new configcode("config.php");
     session_start();
-    
+    $_POST['login'] = test_input($_POST['login']);
     if (trim($_POST['login'])=="Login")
     {
+        $_POST['username'] = test_input($_POST['username']);
+        $_POST['password'] = test_input($_POST['password']);
         //process login form
         $con = $configs->getConfigs();
         //check login attempt is valid
@@ -75,5 +77,10 @@
         }
         
     }
-
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+      }
 ?>

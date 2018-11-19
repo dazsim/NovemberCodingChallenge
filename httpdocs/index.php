@@ -4,6 +4,14 @@
     include_once("configcode.php");
     $configs = new configcode("config.php");
     session_start();
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+      }
+      $_GET['message'] = test_input($_GET['message']);
+      $_GET['messagetype'] = test_input($_GET['messagetype']);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -183,7 +191,11 @@ text-align: center;
     </section>
 
 <div class="grid-2 grid-flow-opposite">
-    <?php include("loginform.php"); ?>
+    <?php
+    
+        include("loginform.php"); 
+    ?>
+    
 </div>
 <div class="grid-4">
 Welcome to My Generic Login System. 
