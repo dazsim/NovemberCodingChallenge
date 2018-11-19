@@ -15,6 +15,7 @@
             //Cannot login. Need to set up database
             $sorry = "Please set up your configuration File before using website";
             header('Location: index.php?messagetype=error&message='.urlencode($sorry)); 
+            exit();
         } else
         {
             //connect to database and check if username exists.
@@ -26,6 +27,7 @@
                     error_log("Error : ".$mysqli->connect_error, 3, "../challenge_error.log");
                     $sorry = "Connection error - Contact Admin";
                     header('Location: index.php?messagetype=error&message='.urlencode($sorry)); 
+                    exit();
             } else
             {
                 
@@ -36,6 +38,7 @@
                     error_log("SQL Error : ".$mysqli->connect_error, 3, "../challenge_error.log");
                     $sorry = "SQL error - Contact Admin";
                     header('Location: index.php?messagetype=error&message='.urlencode($sorry)); 
+                    exit();
                 }
                 else
                 {
@@ -44,6 +47,7 @@
                         //no matching users. we just tell user username or password is wrong.
                         $sorry = "Sorry, your username or password was incorrect";
                         header('Location: index.php?messagetype=error&message='.urlencode($sorry)); 
+                        exit();
                     } else
                     {
                         $user = $result->fetch_assoc();
@@ -51,11 +55,17 @@
                         {
                             //we have a winner.
                             //build session then redirect to index.
+                            $_SESSION['username'] = $_POST['username'];//we do not store password or email in the session.
+                            $_SESSION['loggedin'] = 1;
+                            $sorry = "Congratulations. You are Logged In.";
+                            header('Location: index.php?messagetype=success&message='.urlencode($sorry)); 
+                            exit();
                         } else
                         {
                             // password wrong. we just tell user username or password is wrong.
                             $sorry = "Sorry, your username or password was incorrect";
                             header('Location: index.php?messagetype=error&message='.urlencode($sorry)); 
+                            exit();
                         }
                     }
                 }

@@ -8,7 +8,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Foldy960 - A simplified, responsive 960 grid</title>
+  <title>Simple Login System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- stylesheets -->
   
@@ -188,8 +188,8 @@ text-align: center;
 <div class="grid-4">
 Welcome to My Generic Login System. 
             <?php 
-                if (isset($_SESSION['user']))
-                    echo $_SESSION['user'];
+                if (isset($_SESSION['username']))
+                    echo $_SESSION['username'];
             ?> 
 <div class="content-pad-right">
 </div>
@@ -208,7 +208,7 @@ Welcome to My Generic Login System.
                     //insert error message here
                     echo "<div class=\"errorStyle\">".$_GET['message']."</div>";
                     break;
-                case "sucess":
+                case "success":
                     //insert success message here
                     echo "<div class=\"successStyle\">".$_GET['message']."</div>";
                     break; //redundant but included for completeness

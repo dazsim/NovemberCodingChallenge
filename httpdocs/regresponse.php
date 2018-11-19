@@ -6,38 +6,53 @@
     
     if (trim($_POST['register'])=="Register")
     {
+        $_POST['username'] = test_input($_POST['username']);
+        $_POST['password'] = test_input($_POST['password']);
+        $_POST['passwordConfirm'] = test_input($_POST['passwordConfirm']);
+        $_POST['email'] = test_input($_POST['email']);
         //process register form
         $con = $configs->getConfigs();
         //check register attempt is valid
-        if (!($_POST['password'] == $_POST['passwordConfirm']))
-        {
+        //check both passwords match
+        if (!(test_input($_POST['password']) == test_input($_POST['passwordConfirm'])))
+        { 
+           
             //error. redirect
+
             $sorry = "Passwords need to match. Move this to javascript";
             header('Location: register.php?messagetype=error&message='.urlencode($sorry)); 
+            echo "header failure";
+            exit();
         } 
         
         //validate email
         $email = test_input($_POST["email"]);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Invalid email format"; 
+            $emailErr = "Invalid email format";  
             header('Location: register.php?messagetype=error&message='.urlencode($emailErr)); 
-        }
+            echo "email : ".$email;
+            exit();
+            }
         //validate password
-        if (strlen($_POST['password'])<6)
+        
+        if (strlen(test_input($_POST['password']))<=5)
         {
             $pass = "Password too short";
             header('Location: register.php?messagetype=error&message='.urlencode($pass)); 
+            exit();
         }
         //validate username
-        if(preg_match('/^[a-zA-Z0-9]{5,}$/', $username)) {
+        if(!(preg_match('/^[a-zA-Z0-9]{5,}$/', $_POST['username']))) {
             $unameSorry = "Username format error";
             header('Location: register.php?messagetype=error&message='.urlencode($unameSorry)); 
+            exit();
         }
         if (isset($con['edit']))
         {
             //Cannot login. Need to set up database
             $sorry = "Please set up your configuration File before using website";
             header('Location: register.php?messagetype=error&message='.urlencode($sorry)); 
+            exit();
         } else
         {
             //connect to database and attempt to add user.
@@ -50,23 +65,26 @@
                     error_log("Error : ".$mysqli->connect_error, 3, "../challenge_error.log");
                     $sorry = "Connection error - Contact Admin";
                     header('Location: register.php?messagetype=error&message='.urlencode($sorry)); 
+                    exit();
             } else
             {
                 //first check username doesn't already exist.
 
-                $sql = "SELECT * FROM users WHERE username='".$_POST['username']."'";
+                $sql = "SELECT * FROM users WHERE username='".$_POST['username']."' AND email='".$_POST['email']."'";
                 if (!$result = $mysqli->query($sql)) {
                     //SQL Error
                     error_log("SQL Error : ".$mysqli->connect_errno, 3, "../challenge_error.log");
                     error_log("SQL Error : ".$mysqli->connect_error, 3, "../challenge_error.log");
                     $sorry = "SQL error - Contact Admin ".$sql;
                     header('Location: register.php?messagetype=error&message='.urlencode($sorry)); 
+                    exit();
                 } else
                 {
                     if (!$result->num_rows === 0)
                     {
                         $sorry = "That username already exists";
-                        header('Location: register.php?messagetype=error&message='.urlencode($sorry)); 
+                        header('Location: register.php?messagetype=error&message='.urlencode($sorry));
+                        exit(); 
                     }
                     $result->free(); //free up result ready for next query
                 }
@@ -77,13 +95,15 @@
                     error_log("SQL Error : ".$mysqli->connect_error, 3, "../challenge_error.log");
                     $sorry = "SQL error - Contact Admin ".$sql;
                     header('Location: register.php?messagetype=error&message='.urlencode($sorry)); 
+                    exit();
                 }
                 else
                 {
-                    $result->free();    
-                    $mysqli->close();
+                    //$result->free();    
+                    //$mysqli->close();
                     $sorry = "Congratulations, you have created your account";
                     header('Location: index.php?messagetype=success&message='.urlencode($sorry)); 
+                    exit();
                     
                 }
                 

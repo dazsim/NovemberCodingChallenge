@@ -8,7 +8,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Foldy960 - A simplified, responsive 960 grid</title>
+  <title>Simple Login System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- stylesheets -->
   
