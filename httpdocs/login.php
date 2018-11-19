@@ -8,6 +8,8 @@
     {
         $_POST['username'] = test_input($_POST['username']);
         $_POST['password'] = test_input($_POST['password']);
+        
+
         //process login form
         $con = $configs->getConfigs();
         //check login attempt is valid
@@ -53,7 +55,7 @@
                     } else
                     {
                         $user = $result->fetch_assoc();
-                        if ($user['password']==$_POST['password'])
+                        if (password_verify ( $_POST['password'] , $user['password'] ))
                         {
                             //we have a winner.
                             //build session then redirect to index.

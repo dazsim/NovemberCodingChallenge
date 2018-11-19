@@ -8,7 +8,9 @@
     {
         $_POST['username'] = test_input($_POST['username']);
         $_POST['password'] = test_input($_POST['password']);
-        $_POST['passwordConfirm'] = test_input($_POST['passwordConfirm']);
+        $_POST['password'] = password_hash($_POST['password'],PASSWORD_DEFAULT);
+        $_POST['passwordConfirm'] = test_input($_POST['passwordConfirm'],PASSWORD_DEFAULT);
+        $_POST['passwordConfirm'] = password_hash($_POST['passwordConfirm'],PASSWORD_DEFAULT);
         $_POST['email'] = test_input($_POST['email']);
         //process register form
         $con = $configs->getConfigs();
