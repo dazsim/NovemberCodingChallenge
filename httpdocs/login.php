@@ -35,8 +35,12 @@
             } else
             {
                 
-                $sql = "SELECT * FROM users WHERE username='".$_POST['username']."'";
-                if (!$result = $mysqli->query($sql)) {
+                //$sql = "SELECT * FROM users WHERE username='".$_POST['username']."'";
+                //Change this to a prepared statement
+                $sql = "SELECT * FROM users WHERE username=?";
+                $prep = $mysqli->prepare($sql);
+                $prep->bind_param("s",$_POST['username']);
+                if (!$result = $prep->execute()) {
                     //SQL Error
                     error_log("SQL Error : ".$mysqli->connect_errno, 3, "../challenge_error.log");
                     error_log("SQL Error : ".$mysqli->connect_error, 3, "../challenge_error.log");
@@ -54,6 +58,7 @@
                         exit();
                     } else
                     {
+                        $result = $prep->get_result();
                         $user = $result->fetch_assoc();
                         if (password_verify ( $_POST['password'] , $user['password'] ))
                         {
